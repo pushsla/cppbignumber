@@ -24,8 +24,17 @@ namespace cppbig{
     BigInt operator+(const long int &anumber) const;
     BigInt operator-(const BigInt &other) const;
     BigInt operator-(const long int &anumber) const;
-    //BigInt operator*(const BigInt &other) const;
+    BigInt operator*(const BigInt &other) const;
+    //BigInt operator*(const long int &other) const;
     //BigInt operator/(const BigInt &other) const;
+
+    bool operator==(const BigInt &other);
+    bool operator!=(const BigInt &other);
+    bool operator>(const BigInt &other);
+    bool operator>=(const BigInt &other);
+    bool operator<(const BigInt &other);
+    bool operator<=(const BigInt &other);
+
     BigInt operator-() const;
     BigInt &operator++();
     BigInt &operator--();

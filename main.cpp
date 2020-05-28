@@ -8,5 +8,10 @@ int main(int argc, char *argv[]) {
   printf("%s\n", (++abig).toString().c_str());
   printf("%s\n", (--abig).toString().c_str());
 
+  printf("%d\n", abig == otherbig);
+  printf("%d\n", abig != otherbig);
+  printf("%d\n", abig > otherbig);
+  printf("%d\n", abig < otherbig);
+
   return 0;
 }

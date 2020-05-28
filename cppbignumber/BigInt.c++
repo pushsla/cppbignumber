@@ -127,3 +127,51 @@ const cppbig::BigInt cppbig::BigInt::operator--(int) {
   return previous;
 }
 
+cppbig::BigInt cppbig::BigInt::operator*(const cppbig::BigInt &other) const {
+  BigInt first((this->__pool.size() > other.__pool.size()) ? *this : other);
+  BigInt second((this->__pool.size() > other.__pool.size()) ? other : *this);
+  BigInt result(0);
+
+  // FIXME
+
+  return result;
+}
+
+bool cppbig::BigInt::operator==(const cppbig::BigInt &other) {
+  return (this->__sgn == other.__sgn) && (this->__pool == other.__pool);
+}
+
+bool cppbig::BigInt::operator!=(const cppbig::BigInt &other) {
+  return !(*this == other);
+}
+
+bool cppbig::BigInt::operator>(const cppbig::BigInt &other) {
+  bool greater{this->__sgn > other.__sgn};
+
+  if (!greater){
+    greater = (this->__pool.size() > other.__pool.size());
+    if (!greater && this->__pool.size() == other.__pool.size()){
+      for (size_t i = this->__pool.size(); i > 0; i--){
+        greater = this->__pool[i-1] > other.__pool[i-1];
+        if (greater || this->__pool[i-1] < other.__pool[i-1]){
+          break;
+        }
+      }
+    }
+  }
+
+  return greater;
+}
+
+bool cppbig::BigInt::operator>=(const cppbig::BigInt& other) {
+  return (*this > other) || (*this == other);
+}
+
+bool cppbig::BigInt::operator<(const cppbig::BigInt &other) {
+  return (*this != other) && !(*this > other);
+}
+
+bool cppbig::BigInt::operator<=(const cppbig::BigInt &other) {
+  return (*this < other) || (*this == other);
+}
+
