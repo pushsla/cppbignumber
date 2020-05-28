@@ -64,10 +64,10 @@ cppbig::BigInt cppbig::BigInt::to_bigint(int anumber) {
 cppbig::BigInt cppbig::BigInt::operator+(const cppbig::BigInt &other) const {
   BigInt result(*this);
 
-  if (result.__pool.size() < other.__pool.size()) {
-    result.__pool.resize(other.__pool.size(), 0);
+  if (result.size() < other.size()) {
+    result.__pool.resize(other.size(), 0);
   }
-  for(size_t i = 0; i < other.__pool.size(); i++){
+  for(size_t i = 0; i < other.size(); i++){
     result.__pool[i] += other.__pool[i]*other.__sgn;
   }
   result.__check_overflows();
@@ -128,30 +128,30 @@ const cppbig::BigInt cppbig::BigInt::operator--(int) {
 }
 
 cppbig::BigInt cppbig::BigInt::operator*(const cppbig::BigInt &other) const {
-  BigInt first((this->__pool.size() > other.__pool.size()) ? *this : other);
-  BigInt second((this->__pool.size() > other.__pool.size()) ? other : *this);
+  BigInt first((*this > other) ? *this : other);
+  BigInt second((*this > other) ? other : *this);
   BigInt result(0);
 
-  // FIXME
+  for (size_t i = first.)
 
   return result;
 }
 
-bool cppbig::BigInt::operator==(const cppbig::BigInt &other) {
+bool cppbig::BigInt::operator==(const cppbig::BigInt &other) const {
   return (this->__sgn == other.__sgn) && (this->__pool == other.__pool);
 }
 
-bool cppbig::BigInt::operator!=(const cppbig::BigInt &other) {
+bool cppbig::BigInt::operator!=(const cppbig::BigInt &other) const {
   return !(*this == other);
 }
 
-bool cppbig::BigInt::operator>(const cppbig::BigInt &other) {
+bool cppbig::BigInt::operator>(const cppbig::BigInt &other) const {
   bool greater{this->__sgn > other.__sgn};
 
   if (!greater){
-    greater = (this->__pool.size() > other.__pool.size());
-    if (!greater && this->__pool.size() == other.__pool.size()){
-      for (size_t i = this->__pool.size(); i > 0; i--){
+    greater = (this->size() > other.size());
+    if (!greater && this->size() == other.size()){
+      for (size_t i = this->size(); i > 0; i--){
         greater = this->__pool[i-1] > other.__pool[i-1];
         if (greater || this->__pool[i-1] < other.__pool[i-1]){
           break;
@@ -163,15 +163,19 @@ bool cppbig::BigInt::operator>(const cppbig::BigInt &other) {
   return greater;
 }
 
-bool cppbig::BigInt::operator>=(const cppbig::BigInt& other) {
+bool cppbig::BigInt::operator>=(const cppbig::BigInt& other) const {
   return (*this > other) || (*this == other);
 }
 
-bool cppbig::BigInt::operator<(const cppbig::BigInt &other) {
+bool cppbig::BigInt::operator<(const cppbig::BigInt &other) const {
   return (*this != other) && !(*this > other);
 }
 
-bool cppbig::BigInt::operator<=(const cppbig::BigInt &other) {
+bool cppbig::BigInt::operator<=(const cppbig::BigInt &other) const {
   return (*this < other) || (*this == other);
+}
+
+size_t cppbig::BigInt::size() const {
+  return this->__pool.size();
 }
 

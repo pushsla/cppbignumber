@@ -28,18 +28,20 @@ namespace cppbig{
     //BigInt operator*(const long int &other) const;
     //BigInt operator/(const BigInt &other) const;
 
-    bool operator==(const BigInt &other);
-    bool operator!=(const BigInt &other);
-    bool operator>(const BigInt &other);
-    bool operator>=(const BigInt &other);
-    bool operator<(const BigInt &other);
-    bool operator<=(const BigInt &other);
+    bool operator==(const BigInt &other) const;
+    bool operator!=(const BigInt &other) const;
+    bool operator>(const BigInt &other) const;
+    bool operator>=(const BigInt &other) const;
+    bool operator<(const BigInt &other) const;
+    bool operator<=(const BigInt &other) const;
 
     BigInt operator-() const;
     BigInt &operator++();
     BigInt &operator--();
     const BigInt operator++(int);
     const BigInt operator--(int);
+
+    size_t size() const;
 
     static BigInt to_bigint(int anumber);
   private:
