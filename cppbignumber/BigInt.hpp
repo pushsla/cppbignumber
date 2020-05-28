@@ -29,22 +29,22 @@ namespace cppbig{
     BigInt operator-() const;
     BigInt &operator++();
     BigInt &operator--();
-    BigInt operator++(int);
-    BigInt operator--(int);
+    const BigInt operator++(int);
+    const BigInt operator--(int);
 
     static BigInt to_bigint(int anumber);
   private:
-    std::vector<int_fast16_t> __pool;
+    std::vector<int_fast8_t> __pool;
     int_fast8_t __sgn;
 
     void __check_overflows();
   };
 
   // size of one chunk in pool in digits
-  const uint_fast8_t CHUNK_SIZE = 2;
+  const uint_fast8_t CHUNK_SIZE = 1;
   // 10^CHUNK_SIZE
-  const uint_fast8_t CHUNK_DIVIDER = 100;
+  const uint_fast8_t CHUNK_DIVIDER = 10;
   // maximum number, could be stored in one chunk
-  const uint_fast8_t CHUNK_CAPACITY = 99;
+  const uint_fast8_t CHUNK_CAPACITY = 9;
 
 }

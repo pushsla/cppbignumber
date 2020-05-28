@@ -109,7 +109,7 @@ cppbig::BigInt &cppbig::BigInt::operator--() {
   return *this;
 }
 
-cppbig::BigInt cppbig::BigInt::operator++(int) {
+const cppbig::BigInt cppbig::BigInt::operator++(int) {
   BigInt previous(*this);
 
   this->__pool[0] += this->__sgn;
@@ -118,7 +118,7 @@ cppbig::BigInt cppbig::BigInt::operator++(int) {
   return previous;
 }
 
-cppbig::BigInt cppbig::BigInt::operator--(int) {
+const cppbig::BigInt cppbig::BigInt::operator--(int) {
   BigInt previous(*this);
 
   this->__pool[0] -= this->__sgn;
