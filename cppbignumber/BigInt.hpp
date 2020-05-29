@@ -9,6 +9,9 @@
 #include <vector>
 #include <string>
 
+#define POOL_TYPE int_fast8_t
+#define SGN_TYPE int_fast8_t
+
 namespace cppbig{
 
   class BigInt{
@@ -22,6 +25,8 @@ namespace cppbig{
 
     BigInt operator+(const BigInt &other) const;
     BigInt operator+(const long int &anumber) const;
+    //BigInt operator+=(const BigInt &other) const;
+    //BigInt operator+=(const long int &anumber) const;
     BigInt operator-(const BigInt &other) const;
     BigInt operator-(const long int &anumber) const;
     BigInt operator*(const BigInt &other) const;
@@ -45,8 +50,8 @@ namespace cppbig{
 
     static BigInt to_bigint(int anumber);
   private:
-    std::vector<int_fast8_t> __pool;
-    int_fast8_t __sgn;
+    std::vector<POOL_TYPE> __pool;
+    SGN_TYPE __sgn;
 
     void __check_overflows();
   };

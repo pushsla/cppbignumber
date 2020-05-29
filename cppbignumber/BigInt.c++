@@ -40,10 +40,10 @@ string cppbig::BigInt::toString() const {
 void cppbig::BigInt::__check_overflows() {
   for (size_t i = 0; i < __pool.size() - 1; i++) {
     if (__pool[i] > cppbig::CHUNK_CAPACITY) {
-      __pool[i] = cppbig::CHUNK_CAPACITY;
+      __pool[i] = cppbig::CHUNK_CAPACITY+1-__pool[i];
       __pool[i + 1]++;
     } else if (__pool[i] < 0){
-      __pool[i] = cppbig::CHUNK_CAPACITY + __pool[i];
+      __pool[i] = cppbig::CHUNK_CAPACITY + 1 + __pool[i];
       __pool[i+1]--;
     }
   }
@@ -62,13 +62,15 @@ cppbig::BigInt cppbig::BigInt::to_bigint(int anumber) {
 }
 
 cppbig::BigInt cppbig::BigInt::operator+(const cppbig::BigInt &other) const {
+  // FIXME! wrong calculation whel (a + (-b)) and abs(a) < abs(b)
   BigInt result(*this);
+  SGN_TYPE result_sgn;
 
   if (result.size() < other.size()) {
     result.__pool.resize(other.size(), 0);
   }
   for(size_t i = 0; i < other.size(); i++){
-    result.__pool[i] += other.__pool[i]*other.__sgn;
+    result.__pool[i] += other.__pool[i]*this->__sgn*other.__sgn;
   }
   result.__check_overflows();
 
@@ -130,9 +132,16 @@ const cppbig::BigInt cppbig::BigInt::operator--(int) {
 cppbig::BigInt cppbig::BigInt::operator*(const cppbig::BigInt &other) const {
   BigInt first((*this > other) ? *this : other);
   BigInt second((*this > other) ? other : *this);
-  BigInt result(0);
+  BigInt result(0), tmp;
 
-  for (size_t i = first.)
+  for (size_t i = first.size(); i > 0; i--){
+    tmp.__pool.clear();
+    tmp.__pool.resize(first.size() - i, 0);
+    for (auto &digit : second.__pool){
+      tmp.__pool.push_back(first.__pool[i-1]*digit);
+    }
+    result = result + tmp;
+  }
 
   return result;
 }
