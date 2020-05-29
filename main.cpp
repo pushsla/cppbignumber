@@ -1,7 +1,7 @@
 #include "cppbignumber/BigInt.hpp"
 
 int main(int argc, char *argv[]) {
-  cppbig::BigInt abig{-100}, otherbig{-100};
+  cppbig::BigInt abig{100}, otherbig{-101};
 
   printf("abig %s\n", abig.toString().c_str());
   printf("other %s\n", otherbig.toString().c_str());
@@ -15,7 +15,7 @@ int main(int argc, char *argv[]) {
   printf("abig > other %d\n", abig > otherbig);
   printf("abig < other %d\n", abig < otherbig);
 
-  printf("%s\n", (abig*abig*abig*abig*otherbig*otherbig*otherbig).toString().c_str());
+  printf("%s\n", (abig*otherbig).toString().c_str());
 
   return 0;
 }

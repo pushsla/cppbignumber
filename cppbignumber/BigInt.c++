@@ -48,11 +48,21 @@ void cppbig::BigInt::__check_overflows() {
     }
   }
   if (__pool[__pool.size() - 1] > cppbig::CHUNK_CAPACITY) {
-    __pool[__pool.size() - 1] = cppbig::CHUNK_CAPACITY;
+    __pool[__pool.size() - 1] = cppbig::CHUNK_CAPACITY+1-__pool[__pool.size() - 1];
     __pool.push_back(1);
   } else if (__pool[__pool.size()-1] < 0){
     __pool[__pool.size() - 1] = cppbig::CHUNK_CAPACITY + __pool[__pool.size()-1];
     __sgn = -__sgn;
+  }
+  for (size_t i = __pool.size(); i > 0; i--){
+    if (__pool[i-1] != 0 || i == 1){
+      break;
+    } else{
+      __pool.pop_back();
+    }
+  }
+  if (__pool.size() == 1 && __pool[0] == 0){
+    __sgn = 1;
   }
 }
 
@@ -130,11 +140,11 @@ const cppbig::BigInt cppbig::BigInt::operator--(int) {
 }
 
 cppbig::BigInt cppbig::BigInt::operator*(const cppbig::BigInt &other) const {
-  BigInt first((*this > other) ? *this : other);
-  BigInt second((*this > other) ? other : *this);
+  BigInt first((this->size() > other.size()) ? *this : other);
+  BigInt second((this->size() > other.size()) ? other : *this);
   BigInt result(0), tmp;
 
-  for (size_t i = first.size(); i > 0; i--){
+  for (size_t i = 0; i < first.size(); i++){
     tmp.__pool.clear();
     tmp.__pool.resize(first.size() - i, 0);
     for (auto &digit : second.__pool){
